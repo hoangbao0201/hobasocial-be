@@ -1,0 +1,23 @@
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Nguyễn Hoàng Bảo",
+    "username": "bao3",
+    "password": "bao"
+}
+
+###
+
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "bao1",
+    "password": "bao"
+}
+
+###
+
+GET http://localhost:5000/api/auth/check-token
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM3ZWNiYTA1Y2JhNWNmYTdjNzE5ZWIiLCJpYXQiOjE2NjQ2NDIxNTV9.AuNKwKyDCVdzGA8OxBuz-rX7JYsvpOgHcEvph9sZPmg
