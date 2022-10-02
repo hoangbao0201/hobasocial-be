@@ -12,7 +12,7 @@ app.use(express.json());
 const connectDB = async () => {
     try {
         await mongoose.connect(
-            // `mongodb+srv://hoangbao020103:baobaobao@cluster0.oa0er2c.mongodb.net/?retryWrites=true&w=majority`
+            `mongodb+srv://hoangbao020103:baobaobao@cluster0.oa0er2c.mongodb.net/?retryWrites=true&w=majority`
             `mongodb://localhost:27017`
         , {
             useNewUrlParser: true,
