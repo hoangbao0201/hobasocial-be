@@ -5,13 +5,16 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const route = require("./routes");
-const PORT = 5000;
+const PORT = process.env.PORT || 5000
 
 app.use(express.json());
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(`mongodb+srv://hoangbao020103:baobaobao@cluster0.oa0er2c.mongodb.net/?retryWrites=true&w=majority`, {
+        await mongoose.connect(
+            // `mongodb+srv://hoangbao020103:baobaobao@cluster0.oa0er2c.mongodb.net/?retryWrites=true&w=majority`
+            `mongodb://localhost:27017`
+        , {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

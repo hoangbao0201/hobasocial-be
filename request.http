@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "name": "Nguyễn Hoàng Bảo",
-    "username": "bao3",
+    "username": "bao1",
     "password": "bao"
 }
 
@@ -20,4 +20,17 @@ Content-Type: application/json
 ###
 
 GET http://localhost:5000/api/auth/check-token
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM3ZWNiYTA1Y2JhNWNmYTdjNzE5ZWIiLCJpYXQiOjE2NjQ2NDIxNTV9.AuNKwKyDCVdzGA8OxBuz-rX7JYsvpOgHcEvph9sZPmg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM5NTE4MmNjYjE0NDJiYzhhMGQzOTMiLCJpYXQiOjE2NjQ3MDA4MDJ9.WoDthYDh15aSLBH-eiag2lRBBN7WB9QAN4KbNiPKq60
+
+###
+
+PATCH  http://localhost:5000/api/auth/update-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM5NTE4MmNjYjE0NDJiYzhhMGQzOTMiLCJpYXQiOjE2NjQ3MDA4MDJ9.WoDthYDh15aSLBH-eiag2lRBBN7WB9QAN4KbNiPKq60
+Content-Type: application/json
+
+{
+    "name": "Nguyễn Hoàng Bảo",
+    "username": "bao1",
+    "password": "bao",
+    "newPassword": "bao"
+}

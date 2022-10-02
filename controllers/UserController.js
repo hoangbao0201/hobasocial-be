@@ -4,31 +4,28 @@ const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 
 class UserController {
-
     // [GET] /api/auth/check-token
     async checkToken(req, res) {
-
         try {
             const user = await User.findById(req.userId);
-            if(!user) {
+            if (!user) {
                 return res.status(400).json({
                     success: false,
-                    msg: 'Token error'
-                })
+                    msg: "Token error",
+                });
             }
 
             res.json({
                 success: true,
                 msg: "Token hợp lệ",
                 user: user,
-            })
+            });
         } catch (error) {
             res.status(500).json({
                 success: false,
-                msg: 'Server error'
-            })
+                msg: "Server error",
+            });
         }
-
     }
 
     // [POST] api/auth/register
@@ -60,7 +57,6 @@ class UserController {
                 process.env.ACCESS_TOKEN_SETCRET
             );
 
-
             // Access
             res.json({
                 success: true,
@@ -88,11 +84,11 @@ class UserController {
 
             // Hash password
             const passwordValid = await argon2.verify(user.password, password);
-            if(!passwordValid) {
+            if (!passwordValid) {
                 return res.status(400).json({
                     success: false,
-                    msg: 'Tài khoản hoặc mật khẩu không đúng'
-                })
+                    msg: "Tài khoản hoặc mật khẩu không đúng",
+                });
             }
 
             // JWT
@@ -102,7 +98,6 @@ class UserController {
                 },
                 process.env.ACCESS_TOKEN_SETCRET
             );
-
 
             // Access
             res.json({
@@ -116,7 +111,56 @@ class UserController {
             });
         }
     }
-    
+
+    //[PATCH] /api/auth/update
+    async update(req, res) {
+        try {
+            const { name, username, password, newPassword } = req.body;
+
+            // Check User
+            const user = await User.findById(req.userId);
+            if (!user) {
+                return res.status(500).json({
+                    success: false,
+                    msg: "Lỗi tài khoản",
+                });
+            }
+            // Check password
+            const passwordValid = await argon2.verify(user.password, password);
+            if (!passwordValid) {
+                return res.status(400).json({
+                    success: false,
+                    msg: "Nhập sai mật khẩu",
+                });
+            }
+
+            
+            // Update user
+            const hashPassword = await argon2.hash(newPassword);
+            const userUpdated = await User.findByIdAndUpdate(
+                req.userId,
+                {
+                    name: name,
+                    username: username,
+                    password: hashPassword,
+                },
+                {
+                    new: true,
+                }
+            );
+
+            res.json({
+                success: true,
+                msg: "Upload thành công",
+                user: userUpdated,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: "Server error",
+            });
+        }
+    }
 }
 
 module.exports = new UserController();
