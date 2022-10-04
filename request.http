@@ -1,3 +1,5 @@
+### Register
+
 POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
@@ -7,7 +9,7 @@ Content-Type: application/json
     "password": "bao"
 }
 
-###
+### Login
 
 POST http://localhost:5000/api/auth/login
 Content-Type: application/json
@@ -17,12 +19,12 @@ Content-Type: application/json
     "password": "bao"
 }
 
-###
+### Check token
 
 GET http://localhost:5000/api/auth/check-token
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM5NTE4MmNjYjE0NDJiYzhhMGQzOTMiLCJpYXQiOjE2NjQ3MDA4MDJ9.WoDthYDh15aSLBH-eiag2lRBBN7WB9QAN4KbNiPKq60
 
-###
+### Update user
 
 PATCH  http://localhost:5000/api/auth/update-user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM5NTE4MmNjYjE0NDJiYzhhMGQzOTMiLCJpYXQiOjE2NjQ3MDA4MDJ9.WoDthYDh15aSLBH-eiag2lRBBN7WB9QAN4KbNiPKq60
@@ -34,3 +36,7 @@ Content-Type: application/json
     "password": "bao",
     "newPassword": "bao"
 }
+
+###
+
+GET http://localhost:5000/api/auth/search-user/text=Nguyễn Hoàng Bảo

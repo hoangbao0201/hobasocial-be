@@ -7,7 +7,7 @@ class UserController {
     // [GET] /api/auth/check-token
     async checkToken(req, res) {
         try {
-            const user = await User.findById(req.userId);
+            const user = await User.findById(req.userId).select("-password");
             if (!user) {
                 return res.status(400).json({
                     success: false,
@@ -130,11 +130,11 @@ class UserController {
             if (!passwordValid) {
                 return res.status(400).json({
                     success: false,
-                    msg: "Nhập sai mật khẩu",
+                    warningField: ["oldPassword"],
+                    msg: "Mật khẩu cũ không đúng",
                 });
             }
 
-            
             // Update user
             const hashPassword = await argon2.hash(newPassword);
             const userUpdated = await User.findByIdAndUpdate(
@@ -153,6 +153,54 @@ class UserController {
                 success: true,
                 msg: "Upload thành công",
                 user: userUpdated,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: "Server error",
+            });
+        }
+    }
+
+    // [GET] /api/auth/all-user
+    async getAllUser(req, res) {
+        try {
+            const allUser = await User.find({}).select("-password");
+            if (!allUser) {
+                return res.status(400).json({
+                    success: false,
+                    msg: "Server error",
+                });
+            }
+            res.json({
+                success: true,
+                msg: "Get all user",
+                allUser: allUser,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: "Server error",
+            });
+        }
+    }
+
+    // [GET] /api/auth/search-user/text=:query
+    async searchUser(req, res) {
+        try {
+            const { query } = req.params;
+            const resultSearch = await User.find({
+                $or: [
+                    {
+                        name: { $regex: query, $options: "i" },
+                    },
+                ],
+            });
+
+            res.json({
+                success: true,
+                msg: "Search success",
+                resultSearch: resultSearch,
             });
         } catch (error) {
             res.status(500).json({
