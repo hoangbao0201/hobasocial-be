@@ -39,4 +39,4 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:5000/api/auth/search-user/text=Nguyễn Hoàng Bảo
+GET http://localhost:5000/api/auth/search-user/text=i
