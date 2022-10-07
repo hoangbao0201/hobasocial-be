@@ -8,6 +8,7 @@ const UserSchema = new Schema(
         password: { type: String, require: true },
         avatar: {
             url: { type: String },
+            public_id: { type: String }
         },
     },
     {

@@ -29,7 +29,7 @@ const connectDB = async () => {
     try {
         await mongoose.connect(
             `mongodb+srv://${process.env.USERNAME_MONGODB}:${process.env.PASSWORD_MONGODB}@cluster0.oa0er2c.mongodb.net/?retryWrites=true&w=majority`,
-            // `mongodb://localhost:27017`
+            // `mongodb://localhost:27017`,
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,

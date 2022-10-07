@@ -3,6 +3,9 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const argon2 = require("argon2");
 
+//Lib
+const cloudinary = require("../middleware/cloudinary");
+
 class UserController {
     // [GET] /api/auth/check-token
     async checkToken(req, res) {
@@ -46,6 +49,7 @@ class UserController {
                 name: name,
                 username: username,
                 password: hashPassword,
+                avatar: "/images/avatar-default.png",
             });
             await newUser.save();
 
@@ -201,6 +205,39 @@ class UserController {
                 success: true,
                 msg: "Search success",
                 resultSearch: resultSearch,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: "Server error",
+            });
+        }
+    }
+
+    // [POST] /api/auth/upload-avatar
+    async uploadAvatar(req, res) {
+        try {
+            const user = await User.findById(req.userId);
+            if (user.avatar.url) {
+                await cloudinary.uploader.destroy(user.avatar.public_id);
+            }
+
+            const avatar = await cloudinary.uploader.upload(req.file.path, {
+                public_id: `${Date.now()}`,
+                resource_type: "auto",
+                folder: "avatar",
+            });
+
+            await User.updateOne({ _id: req.userId }, {
+                avatar: {
+                    url: avatar.url,
+                    public_id: avatar.public_id,
+                }
+            }, { new: true });
+
+            res.json({
+                success: true,
+                user: user,
             });
         } catch (error) {
             res.status(500).json({

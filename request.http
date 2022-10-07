@@ -4,9 +4,22 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Nguyễn Hoàng Bảo",
-    "username": "bao1",
+    "name": "Hoàng Long",
+    "username": "bao20",
     "password": "bao"
+}
+
+### Admin Create User
+
+POST http://localhost:5000/api/auth/admin/register
+Content-Type: application/json
+
+{
+    "name": "Nguyễn Hoàng Bảo",
+    "username": "bao",
+    "password": "bao",
+    "start": 31,
+    "end": 60
 }
 
 ### Login
