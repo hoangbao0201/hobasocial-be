@@ -43,28 +43,28 @@ class UserController {
                 });
             }
 
-            // Hash password
+            // // Hash password
             const hashPassword = await argon2.hash(password);
             const newUser = new User({
                 name: name,
                 username: username,
                 password: hashPassword,
-                avatar: "/images/avatar-default.png",
+                avatar: { url: null }
             });
             await newUser.save();
 
-            // JWT
-            const accessToken = await jwt.sign(
-                {
-                    userId: newUser._id,
-                },
-                process.env.ACCESS_TOKEN_SETCRET
-            );
+            // // JWT
+            // const accessToken = await jwt.sign(
+            //     {
+            //         userId: newUser._id,
+            //     },
+            //     process.env.ACCESS_TOKEN_SETCRET
+            // );
 
             // Access
             res.json({
                 success: true,
-                accessToken: accessToken,
+                // accessToken: accessToken,
             });
         } catch (error) {
             res.status(500).json({

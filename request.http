@@ -4,23 +4,29 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Hoàng Long",
-    "username": "bao20",
+    "name": "Nguyễn Hoàng Vũ",
+    "username": "bao2",
     "password": "bao"
 }
 
-### Admin Create User
+### Admin Create Multiple User
 
-POST http://localhost:5000/api/auth/admin/register
+POST http://localhost:5000/api/admin/create-multiple-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ1MTc1ZDc5Y2Q4OGMzM2IzODQ2NzAiLCJpYXQiOjE2NjU0NzM0MjZ9.iLV27EQLoH0kZOWrXhafui1H8FMP2CtT-mpX2ronQHg
 Content-Type: application/json
 
 {
-    "name": "Nguyễn Hoàng Bảo",
+    "name": "BOT",
     "username": "bao",
     "password": "bao",
-    "start": 31,
-    "end": 60
+    "start": 1,
+    "end": 20
 }
+
+### Admin Delete Multiple User
+
+DELETE http://localhost:5000/api/admin/delete-multiple-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ1MTc1ZDc5Y2Q4OGMzM2IzODQ2NzAiLCJpYXQiOjE2NjU0NzM0MjZ9.iLV27EQLoH0kZOWrXhafui1H8FMP2CtT-mpX2ronQHg
 
 ### Login
 
@@ -28,8 +34,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "username": "bao1",
-    "password": "bao"
+    "username": "admin",
+    "password": "baodeptrai199"
 }
 
 ### Check token
@@ -50,6 +56,71 @@ Content-Type: application/json
     "newPassword": "bao"
 }
 
-###
+### Search user
 
 GET http://localhost:5000/api/auth/search-user/text=i
+
+### Create post
+
+POST http://localhost:5000/api/post/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ0MzJhMWMyOTE0ODI2YzgxY2RmMjciLCJpYXQiOjE2NjU0NjA3MTl9.irueBwEj4Z4MNFo_VZM863tLbxOjEQSnwnX9O-0W0c8
+Content-Type: application/json
+
+{
+    "content": "hello mọi người"
+}
+
+### Delete post
+
+DELETE http://localhost:5000/api/post/delete/6342ea09537d752e04e50cf2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZWU5NTNkNTJlOGIyMzVlZWUxMmYiLCJpYXQiOjE2NjUyMzU3NTV9.ZrgsIDYA6x3oBCYvLqKMUdzq3DTp0NqvVoyWU3yAtlc
+
+### Like post
+
+PUT http://localhost:5000/api/post/like-post/6342ea09537d752e04e50cf2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZWU5NTNkNTJlOGIyMzVlZWUxMmYiLCJpYXQiOjE2NjUyMzU3NTV9.ZrgsIDYA6x3oBCYvLqKMUdzq3DTp0NqvVoyWU3yAtlc
+
+### Unlike post
+
+PUT http://localhost:5000/api/post/unlike-post/6342ea09537d752e04e50cf2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZWU5NTNkNTJlOGIyMzVlZWUxMmYiLCJpYXQiOjE2NjUyMzU3NTV9.ZrgsIDYA6x3oBCYvLqKMUdzq3DTp0NqvVoyWU3yAtlc
+
+### Add comment
+
+PUT http://localhost:5000/api/post/add-comment/6342ea09537d752e04e50cf2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZWU5NTNkNTJlOGIyMzVlZWUxMmYiLCJpYXQiOjE2NjUyMzU3NTV9.ZrgsIDYA6x3oBCYvLqKMUdzq3DTp0NqvVoyWU3yAtlc
+Content-Type: application/json
+
+{
+    "text": "đasa"
+}
+
+### Remove comment
+
+PUT http://localhost:5000/api/post/remove-comment/6342ea09537d752e04e50cf2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZWU5NTNkNTJlOGIyMzVlZWUxMmYiLCJpYXQiOjE2NjUyMzU3NTV9.ZrgsIDYA6x3oBCYvLqKMUdzq3DTp0NqvVoyWU3yAtlc
+Content-Type: application/json
+
+{
+    "commentId": "6342eb77317e22cfe708cdac"
+}
+
+### Total post
+
+GET http://localhost:5000/api/post/total-post
+
+### Get all posts
+
+GET http://localhost:5000/api/post/all-post?page=1&perpage=10
+
+### Admin Create Multiple Post
+
+POST http://localhost:5000/api/admin/create-multiple-post
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ1MTc1ZDc5Y2Q4OGMzM2IzODQ2NzAiLCJpYXQiOjE2NjU0NzYxNzB9.CwGr6drooQd1LlyUxrWPvBP2cD9uBmzxd9-GUC632vY
+Content-Type: application/json
+
+{
+    "content": "post",
+    "start": 21,
+    "end": 200
+}

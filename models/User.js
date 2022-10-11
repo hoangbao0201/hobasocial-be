@@ -7,8 +7,8 @@ const UserSchema = new Schema(
         username: { type: String, require: true },
         password: { type: String, require: true },
         avatar: {
-            url: { type: String },
-            public_id: { type: String }
+            url: { type: String, require: true},
+            public_id: { type: String },
         },
     },
     {
