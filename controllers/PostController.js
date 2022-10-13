@@ -1,6 +1,33 @@
 const Post = require("../models/Post");
 
+// Lib
+const cloudinary = require("../middleware/cloudinary");
+
 class PostController {
+
+
+    async uploadSingleImage(req, res) {
+        try {
+            const image = await cloudinary.uploader.upload(req.file.path ,{
+                public_id: `${Date.now()}`,
+                resouce_type: "auto",
+                folder: "images-post"
+            })
+
+
+            res.json({
+                success: true,
+                urlImage: image.url,
+                idImage: image.public_id,
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: 'Server error'
+            })
+        }
+    }
+
     // [GET] /api/post/all-post?page=page&perpage=perpage
     async getAllPost(req, res) {
         try {
@@ -36,7 +63,10 @@ class PostController {
             }
             const post = await Post.create({
                 content,
-                image,
+                image: {
+                    url: image.url,
+                    public_id: image.public_id
+                },
                 postedBy: req.userId,
             });
 

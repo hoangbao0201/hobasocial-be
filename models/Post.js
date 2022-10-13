@@ -7,8 +7,8 @@ const PostSchema = new Schema(
             type: String,
         },
         image: {
-            url: { String },
-            public_id: String,
+            url: { type: String, require: true},
+            public_id: { type: String },
         },
         postedBy: {
             type: mongoose.Types.ObjectId,
