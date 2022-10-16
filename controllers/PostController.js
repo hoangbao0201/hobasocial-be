@@ -55,14 +55,14 @@ class PostController {
     async createPost(req, res) {
         try {
             const { content, image } = req.body;
-            if (!content.length && image) {
+            if (!content && !image) {
                 return res.status(400).json({
                     success: false,
                     msg: "Content and image is required",
                 });
             }
             const post = await Post.create({
-                content,
+                content: content,
                 image: {
                     url: image.url,
                     public_id: image.public_id
@@ -91,12 +91,12 @@ class PostController {
     async deletePost(req, res) {
         try {
             // Action delete post
-            const post = await Post.findByIdAndDelete(post._id);
+            const postId = req.params.id
+            const post = await Post.findByIdAndDelete(postId);
 
             res.json({
                 success: true,
                 msg: "Xóa bài viết thành công",
-                post: post,
             });
         } catch (error) {
             res.status(500).json({
@@ -158,9 +158,9 @@ class PostController {
     async addComment(req, res) {
         try {
             // Action comment post
-            const { text } = req.body;
+            const { text, postId } = req.body;
             const postComment = await Post.findByIdAndUpdate(
-                req.params.id,
+                postId,
                 {
                     $push: {
                         comment: {
@@ -188,9 +188,9 @@ class PostController {
     async removeComment(req, res) {
         try {
             // Action unlike post
-            const { commentId } = req.body;
+            const { commentId, postId } = req.body;
             const post = await Post.findByIdAndUpdate(
-                req.params.id,
+                postId,
                 {
                     $pull: {
                         comment: {
