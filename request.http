@@ -12,7 +12,7 @@ Content-Type: application/json
 ### Admin Create Multiple User
 
 POST http://localhost:5000/api/admin/create-multiple-user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ1MTc1ZDc5Y2Q4OGMzM2IzODQ2NzAiLCJpYXQiOjE2NjU0NzM0MjZ9.iLV27EQLoH0kZOWrXhafui1H8FMP2CtT-mpX2ronQHg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ1MTc1ZDc5Y2Q4OGMzM2IzODQ2NzAiLCJpYXQiOjE2NjYxNTMxMzh9.bl3-EabIIZk1kKiPBt73pNE6TSUL9YA0KtBfq6iwFLA
 Content-Type: application/json
 
 {
@@ -116,11 +116,23 @@ GET http://localhost:5000/api/post/all-post?page=1&perpage=10
 ### Admin Create Multiple Post
 
 POST http://localhost:5000/api/admin/create-multiple-post
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ3YjViM2MxOTQwZmRhYzQ1NjcwYTEiLCJpYXQiOjE2NjU2NDM5NjV9.Y7jGW_yVmILiKAhPiAWzxlgMsCq9AR6ZMbnYp8ADxtg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzUyODVmYzk3ZTNlY2YwODgxNTk1N2UiLCJpYXQiOjE2NjYzNTUzMzR9.xPhfrX9EnesTBtA_3_fkjTbYFqVW2AGa2Y32C9BoMmk
 Content-Type: application/json
 
 {
     "content": "post",
     "start": 1,
     "end": 20
+}
+
+### Send message
+
+PUT http://localhost:5000/api/message/send-message
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzQ1MTc1ZDc5Y2Q4OGMzM2IzODQ2NzAiLCJpYXQiOjE2NjYzNjkyMzF9.ofFQOt9b8p9PTIazq7cmM11G6eMiVfle4fdMNrIqwp0
+Content-Type: application/json
+
+{
+    "messageId": "6352c534fdc3c1bef13f12ce",
+    "receiveId": ["63451dc13fda9c771a2fa18e"],
+    "text": "HAha"
 }

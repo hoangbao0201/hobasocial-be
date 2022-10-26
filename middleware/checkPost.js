@@ -4,7 +4,8 @@ const User = require("../models/User");
 const checkPost = async (req, res, next) => {
     try {
         // Check post
-        const post = await Post.findById(req.params.id);
+        let post = await Post.findById(req.params.id);
+        
         if (!post) {
             return res.status(400).json({
                 success: false,

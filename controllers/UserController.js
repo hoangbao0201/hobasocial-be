@@ -199,7 +199,7 @@ class UserController {
                         name: { $regex: query, $options: "i" },
                     },
                 ],
-            });
+            }).select("-password");
 
             res.json({
                 success: true,

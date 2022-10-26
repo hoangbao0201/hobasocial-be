@@ -58,6 +58,10 @@ class AdminController {
             for (let i = start; i <= end; i++) {
                 const post = new Post({
                     content: content + "-" + i,
+                    image: {
+                        url: null,
+                        public_id: null,
+                    },
                     postedBy: req.userId,
                 });
                 await post.save();
@@ -65,6 +69,7 @@ class AdminController {
 
             res.json({
                 success: true,
+                msg: "Tạo nhiều bài viết thành công",
             });
         } catch (error) {
             res.status(500).json({

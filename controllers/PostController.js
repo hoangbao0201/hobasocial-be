@@ -4,27 +4,24 @@ const Post = require("../models/Post");
 const cloudinary = require("../middleware/cloudinary");
 
 class PostController {
-
-
     async uploadSingleImage(req, res) {
         try {
-            const image = await cloudinary.uploader.upload(req.file.path ,{
+            const image = await cloudinary.uploader.upload(req.file.path, {
                 public_id: `${Date.now()}`,
                 resouce_type: "auto",
-                folder: "images-post"
-            })
-
+                folder: "images-post",
+            });
 
             res.json({
                 success: true,
                 urlImage: image.url,
                 idImage: image.public_id,
-            })
+            });
         } catch (error) {
             res.status(500).json({
                 success: false,
-                msg: 'Server error'
-            })
+                msg: "Server error",
+            });
         }
     }
 
@@ -36,7 +33,7 @@ class PostController {
             const post = await Post.find({})
                 .populate("postedBy", "-password")
                 .limit(perpage)
-                .skip((page-1)*perpage)
+                .skip((page - 1) * perpage)
                 .sort({ createdAt: -1 });
 
             res.json({
@@ -51,7 +48,7 @@ class PostController {
         }
     }
 
-    // [POST] /api/post/create
+    // [POST] /api/post/create-post
     async createPost(req, res) {
         try {
             const { content, image } = req.body;
@@ -65,7 +62,7 @@ class PostController {
                 content: content,
                 image: {
                     url: image.url,
-                    public_id: image.public_id
+                    public_id: image.public_id,
                 },
                 postedBy: req.userId,
             });
@@ -87,12 +84,57 @@ class PostController {
         }
     }
 
-    // [DELETE] /api/post/delete/:id
+    // [PATCH] /api/post/edit-post/:id
+    async editPost(req, res) {
+        try {
+            const { content, image } = req.body;
+
+            const post = await Post.findById(req.params.id);
+
+            // Check người dùng có thay đổi ảnh của post không, check post trước có ảnh không --> hợp lệ thì xóa ảnh lúc trước của post
+            if (
+                !!post.image.public_id &&
+                post.image.public_id != image.public_id
+            ) {
+                await cloudinary.uploader.destroy(post.image.public_id);
+            }
+
+            const postNew = await Post.findByIdAndUpdate(
+                req.params.id,
+                {
+                    content: content,
+                    image: image,
+                },
+                { new: true }
+            ).populate("postedBy", "-password");
+
+            res.json({
+                success: true,
+                post: post,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: "Server error",
+            });
+        }
+    }
+
+    // [DELETE] /api/post/delete-post/:id
     async deletePost(req, res) {
         try {
             // Action delete post
-            const postId = req.params.id
+            const postId = req.params.id;
             const post = await Post.findByIdAndDelete(postId);
+            if (!post) {
+                return res.status(400).json({
+                    success: false,
+                    msg: "No post found!",
+                });
+            }
+            if (post.image && post.image.public_id) {
+                await cloudinary.uploader.destroy(post.image.public_id);
+            }
 
             res.json({
                 success: true,

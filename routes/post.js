@@ -15,6 +15,7 @@ router.get("/all-post", PostController.getAllPost);
 
 router.post("/create-post", verifyToken, PostController.createPost);
 router.delete("/delete-post/:id", verifyToken, checkPost, PostController.deletePost);
+router.patch("/edit-post/:id", verifyToken, checkPost, PostController.editPost);
 
 router.put("/like-post/:id", verifyToken, PostController.likePost);
 router.put("/unlike-post/:id", verifyToken, PostController.unlikePost);
