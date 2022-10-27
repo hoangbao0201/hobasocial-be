@@ -5,8 +5,8 @@ class MessageController {
     async allMessage(req, res) {
         try {
             const messages = await Message.find({
-                member: { $in: req.userId },
-            }).populate("member", "-password");
+                members: { $in: req.userId },
+            }).populate("members", "-password");
 
             res.json({
                 success: true,
@@ -24,8 +24,8 @@ class MessageController {
     async userMessage(req, res) {
         try {
             const messages = await Message.find({
-                member: { $all: [req.userId, req.params.id] },
-            }).populate("member", "-password");
+                members: { $all: [req.userId, req.params.id] },
+            }).populate("members", "-password");
 
             res.json({
                 success: true,
@@ -77,14 +77,17 @@ class MessageController {
                     {
                         new: true,
                     }
-                );
+                ).populate("members", "-password");
                 // message = "có message"
             } else {
                 message = await Message.create({
-                    member: [...receiveId, req.userId].sort(),
+                    members: [...receiveId, req.userId].sort(),
                     content: data,
                 });
-                // message = "không có message";
+                message = await Message.findById(message._id).populate(
+                    "members",
+                    "-password"
+                );
             }
 
             res.json({
