@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 const connectDB = async () => {
     try {
         await mongoose.connect(
-            `mongodb+srv://${process.env.USERNAME_MONGODB}:${process.env.PASSWORD_MONGODB}@cluster0.oa0er2c.mongodb.net/?retryWrites=true&w=majority`,
+            `mongodb+srv://${process.env.USERNAME_MONGODB}:${process.env.PASSWORD_MONGODB}@cluster0.dgng6cd.mongodb.net/?retryWrites=true&w=majority`,
             // `mongodb://localhost:27017`,
             {
                 useNewUrlParser: true,
@@ -45,20 +45,13 @@ connectDB();
 route(app);
 
 io.on("connection", (socket) => {
-    console.log(socket.id);
-
-    socket.on("join_room", (data) => {
-        socket.join(data);
-        console.log(`User with ID: ${socket.id} joined room: ${data}`);
+    socket.on("new-message", (newMessage) => {
+        socket.broadcast.emit("new-message", newMessage);
     });
 
-    socket.on("send_message", (data) => {
-        socket.to(data.room).emit("receive_message", data);
-    });
-
-    socket.on("disconnect", () => {
-        console.log("User Disconnected", socket.id);
-    });
+    // socket.on("disconnect", () => {
+    //     console.log("User Disconnected", socket.id);
+    // });
 });
 
 server.listen(PORT, () => {

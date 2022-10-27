@@ -6,7 +6,9 @@ class MessageController {
         try {
             const messages = await Message.find({
                 members: { $in: req.userId },
-            }).populate("members", "-password");
+            })
+                .populate("members", "-password")
+                .sort({ updatedAt: -1 });
 
             res.json({
                 success: true,
@@ -42,7 +44,7 @@ class MessageController {
     //[PUT] /api/message/send-message
     async sendMessage(req, res) {
         try {
-            const { messageId, receiveId, text, image } = req.body;
+            const { messagesId, receiveId, text, image } = req.body;
             // Check data
             if (!text && !image) {
                 return res.status(400).json({
@@ -67,10 +69,10 @@ class MessageController {
                 data.image = image;
             }
 
-            let message;
-            if (!!messageId) {
-                message = await Message.findOneAndUpdate(
-                    { _id: messageId },
+            let messages;
+            if (!!messagesId) {
+                messages = await Message.findOneAndUpdate(
+                    { _id: messagesId },
                     {
                         $addToSet: { content: data },
                     },
@@ -80,11 +82,12 @@ class MessageController {
                 ).populate("members", "-password");
                 // message = "có message"
             } else {
-                message = await Message.create({
+                messages = await Message.create({
                     members: [...receiveId, req.userId].sort(),
                     content: data,
                 });
-                message = await Message.findById(message._id).populate(
+
+                messages = await Message.findById(messages._id).populate(
                     "members",
                     "-password"
                 );
@@ -92,7 +95,7 @@ class MessageController {
 
             res.json({
                 success: true,
-                message: message,
+                messages: messages,
             });
         } catch (error) {
             res.status(500).json({
