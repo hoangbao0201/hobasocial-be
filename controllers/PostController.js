@@ -110,7 +110,7 @@ class PostController {
 
             res.json({
                 success: true,
-                post: post,
+                post: postNew,
             });
         } catch (error) {
             res.status(500).json({

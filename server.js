@@ -44,14 +44,19 @@ const connectDB = async () => {
 connectDB();
 route(app);
 
+global.onlineUser = new Map();
 io.on("connection", (socket) => {
-    socket.on("new-message", (newMessage) => {
-        socket.broadcast.emit("new-message", newMessage);
-    });
 
-    // socket.on("disconnect", () => {
-    //     console.log("User Disconnected", socket.id);
-    // });
+    global.chatSocket = socket;
+
+    socket.on("add-user", (userId) => {
+        onlineUser.set(userId, socket.id);
+    })
+
+    socket.on("send-message", (newMessage) => {
+        socket.broadcast.emit("msg-receive", newMessage);
+    });
+    
 });
 
 server.listen(PORT, () => {
