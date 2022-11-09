@@ -32,6 +32,7 @@ class PostController {
 
             const post = await Post.find({})
                 .populate("postedBy", "-password")
+                .populate("comments.commentBy", "-password")
                 .limit(perpage)
                 .skip((page - 1) * perpage)
                 .sort({ createdAt: -1 });
@@ -200,23 +201,30 @@ class PostController {
     async addComment(req, res) {
         try {
             // Action comment post
-            const { text, postId } = req.body;
-            const postComment = await Post.findByIdAndUpdate(
-                postId,
-                {
-                    $push: {
-                        comment: {
-                            text: text,
-                            commentBy: req.userId,
-                        },
-                    },
-                },
+            // const { text } = req.body;
+            const postId = req.params.id;
+            // const postComment = await Post.findByIdAndUpdate(
+            //     postId,
+            //     {
+            //         $push: {
+            //             comments: {
+            //                 text: text,
+            //                 commentBy: req.userId,
+            //             },
+            //         },
+            //     },
+
+            //     { new: true }
+            // ).populate("comments.commentBy", "-password");
+
+            const postComment = await Post.findByIdAndUpdate(postId, 
+                { $sort: { 'comments.created': -1 } },
                 { new: true }
             );
 
             res.json({
                 success: true,
-                post: postComment,
+                postComment: postComment,
             });
         } catch (error) {
             res.status(500).json({
@@ -226,19 +234,16 @@ class PostController {
         }
     }
 
-    // [PUT] /api/post/remove-comment/:id
-    async removeComment(req, res) {
+    // [PUT] /api/post/delete-comment/:id
+    async deleteComment(req, res) {
         try {
             // Action unlike post
-            const { commentId, postId } = req.body;
+            const { commentId } = req.body;
+            const postId = req.params.id;
             const post = await Post.findByIdAndUpdate(
                 postId,
                 {
-                    $pull: {
-                        comment: {
-                            _id: { $eq: commentId },
-                        },
-                    },
+                    $pull: { comments: { _id: commentId } },
                 },
                 { new: true }
             );

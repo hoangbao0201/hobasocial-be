@@ -34,8 +34,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "username": "admin",
-    "password": "baodeptrai199"
+    "username": "bao1",
+    "password": "bao"
 }
 
 ### Check token
@@ -87,12 +87,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZ
 
 ### Add comment
 
-PUT http://localhost:5000/api/post/add-comment/6342ea09537d752e04e50cf2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzNlZWU5NTNkNTJlOGIyMzVlZWUxMmYiLCJpYXQiOjE2NjUyMzU3NTV9.ZrgsIDYA6x3oBCYvLqKMUdzq3DTp0NqvVoyWU3yAtlc
+PUT http://localhost:5000/api/post/add-comment/636bbbb2f18bff15cdb8f869
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzVhYTFkNWUyNGExN2I3YWM2MjE0MzIiLCJpYXQiOjE2NjgwMDQ5ODN9.hq1BEObqXPxfT_8fkQHt0UqTwiRNdXQe-TE8ZG54AZs
 Content-Type: application/json
 
 {
-    "text": "đasa"
+    "text": "Bài viết rất hay và ý nghĩa, tôi rất hải lòng về nó."
 }
 
 ### Remove comment

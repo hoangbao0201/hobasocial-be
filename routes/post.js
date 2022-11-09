@@ -20,8 +20,8 @@ router.patch("/edit-post/:id", verifyToken, checkPost, PostController.editPost);
 router.put("/like-post/:id", verifyToken, PostController.likePost);
 router.put("/unlike-post/:id", verifyToken, PostController.unlikePost);
 
-router.put("/add-comment", verifyToken, PostController.addComment);
-router.put("/remove-comment", verifyToken, PostController.removeComment);
+router.put("/add-comment/:id", verifyToken, PostController.addComment);
+router.put("/delete-comment/:id", verifyToken, PostController.deleteComment);
 
 router.post("/upload-single-image", verifyToken, multer.single("file"), PostController.uploadSingleImage)
 

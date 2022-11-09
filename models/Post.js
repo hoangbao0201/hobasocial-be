@@ -21,7 +21,7 @@ const PostSchema = new Schema(
                 ref: "User" 
             }
         ],
-        comment: [
+        comments: [
             {
                 text: String,
                 created: {
