@@ -49,6 +49,30 @@ class PostController {
         }
     }
 
+    // [GET] /api/post/user-post?page=page&perpage=perpage&id=id
+    async getUserPost(req, res) {
+        try {
+            const { page, perpage, id } = req.query;
+
+            const post = await Post.find({postedBy: {$in: id}})
+                .populate("postedBy", "-password")
+                .populate("comments.commentBy", "-password")
+                .limit(perpage)
+                .skip((page - 1) * perpage)
+                .sort({ createdAt: -1 });
+
+            res.json({
+                success: true,
+                posts: post,
+            });
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: "Server error",
+            });
+        }
+    }
+
     // [POST] /api/post/create-post
     async createPost(req, res) {
         try {
@@ -201,26 +225,21 @@ class PostController {
     async addComment(req, res) {
         try {
             // Action comment post
-            // const { text } = req.body;
+            const { text } = req.body;
             const postId = req.params.id;
-            // const postComment = await Post.findByIdAndUpdate(
-            //     postId,
-            //     {
-            //         $push: {
-            //             comments: {
-            //                 text: text,
-            //                 commentBy: req.userId,
-            //             },
-            //         },
-            //     },
+            const postComment = await Post.findByIdAndUpdate(
+                postId,
+                {
+                    $push: {
+                        comments: {
+                            text: text,
+                            commentBy: req.userId,
+                        },
+                    },
+                },
 
-            //     { new: true }
-            // ).populate("comments.commentBy", "-password");
-
-            const postComment = await Post.findByIdAndUpdate(postId, 
-                { $sort: { 'comments.created': -1 } },
                 { new: true }
-            );
+            ).populate("comments.commentBy", "-password");
 
             res.json({
                 success: true,

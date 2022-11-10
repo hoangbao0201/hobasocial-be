@@ -7,6 +7,23 @@ const argon2 = require("argon2");
 const cloudinary = require("../middleware/cloudinary");
 
 class UserController {
+    // [GET] /api/auth/:id
+    async connectUser(req, res) {
+        try {
+            const user = await User.findById(req.params.id).select("-password");
+
+            res.json({
+                success: true,
+                user: user
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                msg: 'Server error'
+            })
+        }
+    }
+
     // [GET] /api/auth/check-token
     async checkToken(req, res) {
         try {

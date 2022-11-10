@@ -21,6 +21,7 @@ router.get("/all-user", UserController.getAllUser);
 router.get("/search-user/text=:query", UserController.searchUser);
 router.get("/check-token", verifyToken, UserController.checkToken);
 
+router.get("/:id", UserController.connectUser);
 
 
 
