@@ -9,7 +9,7 @@ const cors = require("cors");
 app.use(cors());
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://hoangbao-social-network.vercel.app");
+  res.header("Access-Control-Allow-Origin", "https://hobasocial.vercel.app");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -23,7 +23,7 @@ const io = new Server(server, {
     cors: {
         origin: [
             "http://localhost:3000",
-            "https://hoangbao-social-network.vercel.app",
+            "https://hobasocial.vercel.app",
         ],
     },
 });
